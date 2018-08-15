@@ -34,7 +34,7 @@ module.exports = function (data) {
                       
                     if(!(config.hasOwnProperty(importedId))) {
                       // check for env in process
-                      if(process.env.hasOwnProperty(importedId))
+                      if(process.env.indexOf(importedId) !== -1)
                       {
                          useEnvVal = true;
                       }
