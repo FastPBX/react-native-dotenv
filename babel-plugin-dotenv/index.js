@@ -53,12 +53,12 @@ module.exports = function (data) {
                     }
                     else
                     {
-                        ourVal = config[importedId]);
+                        ourVal = config[importedId];
                     }
                     
                     var binding = path.scope.getBinding(localId);
                     binding.referencePaths.forEach(function(refPath){
-                      refPath.replaceWith(t.valueToNode(ourVal)
+                      refPath.replaceWith(t.valueToNode(ourVal));
                     });
                   })
 
