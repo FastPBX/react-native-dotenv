@@ -30,13 +30,34 @@ module.exports = function (data) {
                     }
                     var importedId = specifier.imported.name
                     var localId = specifier.local.name;
+                    var useEnvVal = false;
+                      
                     if(!(config.hasOwnProperty(importedId))) {
-                      throw path.get('specifiers')[idx].buildCodeFrameError('Try to import dotenv variable "' + importedId + '" which is not defined in any ' + configFile + ' files.')
+                      // check for env in process
+                      if(process.env.hasOwnProperty(importedId))
+                      {
+                         useEnvVal = true;
+                      }
+                      else
+                      {
+                        throw path.get('specifiers')[idx].buildCodeFrameError('Try to import dotenv variable "' + importedId + '" which is not defined in any ' + configFile + ' files.')
+                      }
                     }
-
+                      
+                    var ourVal = 0;
+                      
+                    if(useEnvVal)
+                    {
+                        ourVal = process.env[importedId];
+                    }
+                    else
+                    {
+                        ourVal = config[importedId]);
+                    }
+                    
                     var binding = path.scope.getBinding(localId);
                     binding.referencePaths.forEach(function(refPath){
-                      refPath.replaceWith(t.valueToNode(config[importedId]))
+                      refPath.replaceWith(t.valueToNode(ourVal)
                     });
                   })
 
